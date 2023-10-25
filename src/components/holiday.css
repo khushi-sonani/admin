@@ -1,0 +1,34 @@
+/* Holiday.css */
+
+/* Center the h1 element */
+h1 {
+  text-align: center;
+}
+
+/* Style the "Add" button */
+.add {
+  margin-left: 90%;
+}
+
+/* Style the dialog content */
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Style the text input and date picker */
+.text-input,
+.date-picker {
+  width: 100%;
+}
+
+/* Style the buttons inside the dialog */
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+.center {
+  text-align: center;
+}

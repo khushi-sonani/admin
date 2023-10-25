@@ -1,0 +1,92 @@
+/* CSS for the container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  flex-direction: column;
+  margin-top: 0px;
+}
+
+.containe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+  transition: height 0.3s;
+  flex-direction: column;
+}
+
+/* Base styles for your table */
+table {
+  width: 60%; /* Reduce table width further */
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th, table td {
+  padding: 6px; /* Reduce cell padding */
+  text-align: left;
+  border: 1px solid #ddd;
+  font-size: 12px; /* Decrease font size for the table */
+}
+
+/* Responsive styles for smaller screens */
+@media screen and (max-width: 768px) {
+  table th, table td {
+    padding: 4px; /* Further reduce cell padding for smaller screens */
+    font-size: 10px; /* Further decrease font size for smaller screens */
+  }
+
+  /* Additional responsive styles go here */
+}
+
+/* Style for table header row */
+thead {
+  background-color: #f2f2f2;
+}
+
+/* Style for alternating rows */
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Style for buttons */
+.edit-button, .save-button, .delete-button, .add-button {
+  padding: 8px 16px; /* Increase button padding */
+  margin: 6px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.add-button {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.popup-content {
+  width: 400px; /* Set your desired width here */
+  padding: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Any additional styles go here */
