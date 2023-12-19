@@ -1,0 +1,12 @@
+.sidebar {
+    position: fixed;
+    width: 230px; /* Adjust the width as needed */
+    background-color: white; /* Change the background color as needed */
+    color: #fff; /* Change text color as needed */
+    overflow-y: auto; /* Allow vertical scrolling when content overflows the sidebar */
+    top: 0; /* Fixed position at the top */
+    left: 0; /* Fixed position at the left (horizontal position) */
+  }
+  .time{
+    height: 2px;
+  }

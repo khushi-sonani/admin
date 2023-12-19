@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -18,20 +20,34 @@ function Holiday() {
   const [textValue, setTextValue] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [holidays, setHolidays] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch holidays when the component mounts
-    fetchHolidays();
-  }, []); // The empty dependency array ensures it only runs once on component mount
+    const fetchHolidays = async () => {
+      try {
+        const response = await fetch('https://attendance-backend-five.vercel.app/holiday/holidays');
+        if (response.ok) {
+          const data = await response.json();
+          setHolidays(data.holidays);
+          console.log(data.holidays)
+          setLoading(false);
+        } else {
+          console.error('Error fetching holidays:', response.statusText);
+          setError('Failed to fetch holiday records');
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+        setError('Network error');
+        setLoading(false);
+      }
+    };
 
-  const fetchHolidays = async () => {
-    try {
-      const response = await axios.get('https://attendance-backend-five.vercel.app/holiday/holidays');
-      setHolidays(response.data);
-    } catch (error) {
-      console.error('Error fetching holidays:', error);
-    }
-  };
+    fetchHolidays();
+  }, []);
+
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,7 +81,7 @@ function Holiday() {
         setDate(null);
         handleClose();
         // After adding a holiday, fetch the updated list of holidays
-        fetchHolidays();
+        
       } else {
         alert('Please select a date');
       }
@@ -75,72 +91,52 @@ function Holiday() {
     }
   };
   
-  holidays.sort((a, b) => new Date(a.date) - new Date(b.date));
+
 
   return (
     <div>
+    <div className="sidebar">
       <Sidebar />
-      <h1 style={{ textAlign: 'center' }}>Holiday List</h1>
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        className="add"
-        onClick={handleClickOpen}
-        style={{ marginLeft: '90%' }}
-      >
-        Add
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogContent className="dialog-content">
-        <TextField
-            label="Holiday Name"
-            variant="outlined"
-            className="text-input"
-            style={{ width: '260px' }}
-            value={holidayType}
-            onChange={(e) => setHolidayType(e.target.value)}
-          />
-          <div style={{ marginTop: '10px' }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DatePicker']}>
-                <DatePicker
-                  label="Select Date"
-                  id="date"
-                  value={date}
-                  onChange={handleDateChange} // This should be correctly linked to the date picker
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-          </div>
-          <div className="dialog-buttons">
-            <Button variant="contained" onClick={handleClose} style={{ width: '120px', marginTop: '30px', marginRight: '20px' }}>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleSubmit} style={{ width: '120px', marginTop: '30px' }}>
-              Add
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Display the list of holidays */}
-      <table style={{ marginLeft: '250px', backgroundColor: '#f0f0f0' }}>
-    <thead>
-      <tr>
-        <th>Holiday Type</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {holidays.map((holiday) => (
-        <tr key={holiday.id}>
-          <td>{holiday.holidaytype}</td>
-          <td>{holiday.date}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
     </div>
+    <h1 style={{ textAlign: 'center', marginTop: '30px' }}>Holiday List</h1>
+    <Button
+      variant="contained"
+      startIcon={<AddIcon />}
+      className="add"
+      onClick={handleClickOpen}
+      style={{ marginLeft: '57%', marginTop: '40px' }}
+    >
+      Add New Holiday
+    </Button>
+    <Dialog open={open} onClose={handleClose}>
+      <DialogTitle>Add Holiday</DialogTitle>
+      <Divider />
+      <DialogContent className="dialog-content">
+        {/* ... (previous code) */}
+      </DialogContent>
+    </Dialog>
+
+    <div style={{ marginLeft:'300px', color:'black', marginTop:'100px'}}>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : (
+        <div>
+        
+        
+          <ul>
+            {holidays.map((holiday) => (
+              <li key={holiday._id}>
+                {/* Display details of each holiday record as needed */}
+                Date: {holiday.date},      h Name: {holiday.holidaytype}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
   );
 }
 

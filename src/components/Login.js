@@ -135,12 +135,7 @@ function FormValidation() {
                 Do not have an account? <b>Sign up</b>
               </a>
             </div>
-            <div>
-              <a href="dashboard" style={{ textDecoration:'none'}} className="p">
-                <b>dashboard</b>
-              </a>
-             
-            </div>
+          
           </div>
         </div>
       </div>

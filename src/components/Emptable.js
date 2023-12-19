@@ -1,11 +1,19 @@
 import React from "react";
-import Emp from "./Emp"; // Import the component
+import './emp.css'
+import Sidebar from './Sidebar'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function App() {
   return (
-    <div className="App">
-      <h1> hello</h1>
-      <Emp /> {/* Use the component here */}
+    <div >
+      <div className="sidebar">
+        <Sidebar />
+      </div>
+   
+      <div style={{ marginLeft:'230px', marginTop:'10px', display:'flex'}}>
+        <ArrowBackIcon  style={{ color:'black'}}/>
+        <p style={{ marginLeft:'600px', color:'black'}}> Edit Employee</p>
+      </div>
     </div>
   );
 }

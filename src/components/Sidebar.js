@@ -17,11 +17,12 @@ function Dashboard() {
             <body id="page-top">
 
                 {/*  <!-- Page Wrapper --> */}
-                <div id="wrapper">
-
-                    <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+              <div id="wrapper" >
+              <div className="dashboard-container">
+      <div className="sidebar" style={{ backgroundColor:'white'}}>
+                    <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{ backgroundColor:'white'}}>
                         {/* Sidebar - Brand */}
-                        <a className="sidebar-brand d-flex flex-column align-items-center justify-content-center" href="/company">
+                        <a className="sidebar-brand d-flex flex-column align-items-center justify-content-center" href="/emp">
                             <img src={logo} alt="logo" className="logo" style={{ marginTop: '100px', height: "70px", width: '70px' }} />
                             <div className="sidebar-brand-text mx-3" style={{ marginTop: '20px' }}>
                                 Abcd <sup></sup>
@@ -36,7 +37,7 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'myTeam' ? 'selected' : ''}`} style={{ marginTop: '100px' }}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/dashboard"
                                 onClick={() => setSelectedOption('myTeam')}
                             >
                                 <i className="fas fa-fw fa-users" style={{ fontSize: '17px', marginRight: '8px' }}></i>
@@ -46,7 +47,7 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'employees' ? 'selected' : ''}`}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/emp"
                                 onClick={() => setSelectedOption('employees')}
                             >
                                 <i className="fas fa-fw fa-user" style={{ fontSize: '17px', marginRight: '8px' }}></i>
@@ -56,7 +57,7 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'attendance' ? 'selected' : ''}`}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/Attendance"
                                 onClick={() => setSelectedOption('attendance')}
                             >
                                 <i className="fas fa-fw fa-fingerprint" style={{ fontSize: '17px', marginRight: '8px' }}></i>
@@ -66,7 +67,7 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'report' ? 'selected' : ''}`}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/reportt"
                                 onClick={() => setSelectedOption('report')}
                             >
                                 <i className="fas fa-fw fa-file" style={{ fontSize: '17px', marginRight: '8px' }}></i>
@@ -76,14 +77,14 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'notification' ? 'selected' : ''}`}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/notification"
                                 onClick={() => setSelectedOption('notification')}
                             >
                                 <i className="fas fa-fw fa-bell" style={{ fontSize: '17px', marginRight: '8px' }}></i>
                                 <span style={{ fontSize: '17px' }}>Notification</span>
                             </a>
                         </li>
-                        <li className={`nav-item`} >
+                        <li className={`nav-item`} style={{ cursor:'pointer'}}>
                             <a
                                 className={`nav-link clickable ${selectedOption === 'calculateSalary' ? 'selected' : ''}`}
                                 onClick={toggleSubMenu}
@@ -119,7 +120,7 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'addPayment' ? 'selected' : ''}`} >
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href=""
                                 onClick={() => setSelectedOption('addPayment')}
                             >
                                 <i className="fas fa-fw fa-credit-card" style={{ fontSize: '17px', marginRight: '8px' }}></i>
@@ -129,7 +130,7 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'payEmployees' ? 'selected' : ''}`}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/payment"
                                 onClick={() => setSelectedOption('payEmployees')}
                             >
                                 <i className="fas fa-fw fa-coins" style={{ fontSize: '17px', marginRight: '8px' }}></i>
@@ -139,17 +140,17 @@ function Dashboard() {
                         <li className={`nav-item ${selectedOption === 'liveLocation' ? 'selected' : ''}`}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/holiday"
                                 onClick={() => setSelectedOption('liveLocation')}
                             >
-                                <i className="fas fa-fw fa-map-marker-alt" style={{ fontSize: '17px', marginRight: '8px' }}></i>
-                                <span style={{ fontSize: '17px' }}>Live Location</span>
+                                <i className="fas fa-fw fa-gift" style={{ fontSize: '17px', marginRight: '8px' }}></i>
+                                <span style={{ fontSize: '17px' }}>Holiday</span>
                             </a>
                         </li>
                         <li className={`nav-item ${selectedOption === 'documents' ? 'selected' : ''}`}>
                             <a
                                 className="nav-link"
-                                href="dashboard"
+                                href="/document"
                                 onClick={() => setSelectedOption('documents')}
                             >
                                 <i className="fas fa-fw fa-file-alt" style={{ fontSize: '17px', marginRight: '8px' }}></i>
@@ -167,10 +168,10 @@ function Dashboard() {
                             </a>
                         </li>
                     </ul>
-        
-
-                  
-                                </div>
+                    </div>
+                    </div>
+                 </div>
+            
             </body>
         </div>
     )

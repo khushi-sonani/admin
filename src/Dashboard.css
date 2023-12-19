@@ -76,4 +76,72 @@
    height: 30px;
     background-size: 20px 20px; /* Adjust the size as needed */
   }
+  table {
+    border-collapse: collapse;
+    border: none; /* Remove table border */
+  }
+ /* Style the container to limit the height and make it scrollable */
+ .table-container {
+    max-height: 400px;
+    max-width: 1240px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
   
+  .table-scroll {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent text from wrapping */
+    max-width: 100%; /* Ensure table doesn't overflow container */
+  }
+
+  .td {
+    font-size: 15px;
+    padding: 20px;
+    padding-right: 90px;
+    border-left: 0px;
+    border-top: 0px ; /* Add top border to table cells */
+    border-right: 0px;
+    border-bottom: 1px solid #ccc; /* Add bottom border to table cells */
+  }
+  
+  .th {
+    font-size: 13px;
+    padding: 10px;
+    border-left: 0.5px;
+    color: #616161;
+    background-color: #e8eaf6;
+    border-top: 0px solid #ccc; /* Add top border to table header cells */
+    border-bottom: 1px solid #ccc; /* Add bottom border to table header cells */
+  }
+  tr:hover {
+    background-color: #f0f0f0; /* Change to the desired hover background color */
+  }
+ 
+  .dashboard-container {
+    display: flex;
+    height: 100vh; /* Adjust the height as needed */
+}
+
+.sidebar {
+  position: fixed;
+  width: 230px; /* Adjust the width as needed */
+   /* Change the background color as needed */
+  color: #fff; /* Change text color as needed */
+  overflow-y: auto; /* Allow vertical scrolling when content overflows the sidebar */
+  top: 0; /* Fixed position at the top */
+  left: 0; /* Fixed position at the left (horizontal position) */
+}
+
+.sidebar-content {
+  padding: 20px; /* Adjust the padding as needed */
+}
+
+.page-content {
+  margin-left: 230px; /* Match the width of your sidebar */
+  overflow-y: auto; /* Allow vertical scrolling when content overflows the page content */
+  /* The rest of your page content styles go here */
+}
+
+.content-container {
+  margin-left: 0px; /* Match the width of your sidebar */
+  overflow-y: auto;
+}

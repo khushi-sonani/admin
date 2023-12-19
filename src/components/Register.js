@@ -6,13 +6,10 @@ import logo from './img/logo.jpg';
 import './register.css';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; 
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import './register.css'
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom"; 
 import Swal from 'sweetalert2'; // Import SweetAlert
 import 'sweetalert2/src/sweetalert2.scss'; 
@@ -30,22 +27,33 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Sidebar from './Sidebar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PersonIcon from '@mui/icons-material/Person';
 
 function Signup({ registerEmployee }) {
   const [date, setDate] = useState();
   const [dob, setDob] = useState(null);
   const [dojoining, setDojoining] = useState(null);
   const navigate = useNavigate(); 
+  const [gender, setGender] = useState('');
 
+  const handleChanges = (event) => {
+    setGender(event.target.value);
+  };
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     mobileNo: '',
+    pannumber: '',
+    adharnumber: '',
+    gender: '', // Initialize the gender field
+    address: '',
+    password:' ',
   });
 
-  const [PostData, setPostData] = useState([]);
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [selectedGender, setSelectedGender] = useState(''); // Initialize selectedGender
+
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,6 +62,11 @@ function Signup({ registerEmployee }) {
       [name]: value,
     }));
   };
+
+  const handleGenderChange = (e) => {
+    setSelectedGender(e.target.value); // Update selectedGender
+  };
+
   const showSuccessAlert = () => {
     Swal.fire({
       icon: 'success',
@@ -62,53 +75,48 @@ function Signup({ registerEmployee }) {
       confirmButtonText: 'OK',
       allowOutsideClick: false,
     }).then((result) => {
-      // Handle the "OK" button click
       if (result.isConfirmed) {
-        navigate('/emp'); // Redirect to the desired route
+        navigate('/dashboard'); // Redirect to the desired route
       }
     });
   };
-  
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Prevent multiple submissions
     if (isSubmitting) {
       return;
     }
-  
+
     setIsSubmitting(true);
-  
+
     try {
       const response = await axios.post(
         'https://attendance-backend-five.vercel.app/company',
         formData
       );
-  
+
       setFormData({
         name: '',
         email: '',
         password: '',
         mobileNo: '',
+        pannumber: '',
+        adharnumber: '',
+        gender: selectedGender, // Use selectedGender for gender
+        address: '',
+        password:' ',
       });
-  
-      setRegistrationSuccess(true);
-    
 
       showSuccessAlert();
-
-     
-
     } catch (error) {
       console.error(error);
-      setRegistrationSuccess(false);
-      
       Swal.fire({
         title: 'Registration Failed',
-        text: 'falied in sign up try again ',
+        text: 'Failed to sign up. Please try again.',
         icon: 'error',
         confirmButtonText: 'OK',
       });
@@ -118,39 +126,101 @@ function Signup({ registerEmployee }) {
   };
   return (
     <div>
+    <div className="sidebar">
+  <Sidebar />
+</div>
+
+<form  onSubmit={handleSubmit}  >
        <ToastContainer />
-      <form onSubmit={handleSubmit}>
-        <div className='main'>
-          <div className='sub-main'>
-            <div>
-              <div className='imgs'>
-                <div className='container-img'>
-                  <img src={logo} alt='logo' className='logo' />
-                </div>
+       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' , marginLeft:'250px'}}>
+        <Link to="/dashboard">
+          <ArrowBackIcon /> {/* Back icon */}
+        </Link>
+        <b style={{ marginRight: '700px' }}>Add Employee</b>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', marginLeft: '250px', marginTop: '30px' }}>
+  <div
+    style={{
+      width: '70px',
+      height: '70px',
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'darkgray',
+    }}
+  >
+    <PersonIcon style={{ fontSize: 50, color: 'white' }} />
+  </div>
+  <div style={{ fontSize: '30px', marginLeft: '20px', color:'#303f9f' }}>Add Employee</div>
+   <Button    id="submit-button"  type="submit" style={{ marginLeft: '700px', backgroundColor:'#e57373', color:'white', width:'250px', height:'40', fontSize:'20px' }}>Save</Button>	
+
+</div>
+
+<hr style={{ height: '1px', background: 'lightgray', border: '0px', marginTop: '10px', borderRadius:'2px' }} />
+
+<div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
+  <div className='sub-main'>
+    <div style={{ marginLeft:'200px'}}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <label style={{ width: '150px', marginRight: '10px', color:'black' }}>Name:</label>
+        <input style={{ width: '500px', borderRadius:'5px' }} name="name" type="text" size="small" onChange={handleChange} />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center' , color:'black' }}>
+        <label style={{ width: '150px', marginRight: '10px' }}>Mobile No:</label>
+        <TextField name="mobileNo" style={{ width: '500px', borderRadius:'5px' }} type="number" size="small" onChange={handleChange} />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center', color:'black'  }}>
+        <label style={{ width: '150px', marginRight: '10px' }}>E-mail:</label>
+        <TextField name="email" style={{ width: '500px', borderRadius:'5px' }} type="text" size="small" onChange={handleChange} />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center', color:'black'  }}>
+        <label style={{ width: '150px', marginRight: '10px' }}>Adhar Number:</label>
+        <TextField name="adharnumber" style={{ width: '500px', borderRadius:'5px' }} size="small" onChange={handleChange} />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center' , color:'black' }}>
+        <label style={{ width: '150px', marginRight: '10px' }}>Pan number:</label>
+        <TextField label="" name="pannumber"  style={{ width: '500px', borderRadius:'5px' }} type="text" size="small" onChange={handleChange} />
+      </div>
+      <br />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label style={{ width: '150px', marginRight: '10px', color: 'black' }}>Gender:</label>
+                <Select
+                  value={selectedGender}
+                  name="gender"
+                  onChange={handleGenderChange} // Use handleGenderChange for onChange
+                  style={{ width: '500px', borderRadius: '5px' }}
+                  size="small"
+                >
+                  <MenuItem value="male">Male</MenuItem>
+                  <MenuItem value="female">Female</MenuItem>
+                </Select>
               </div>
-              <h1 className='h1'>Registration</h1>
-              <div>
-                <TextField label="User name" name="name" type="text" size="small" onChange={handleChange} />
-              </div><br/>
-              <div>
-                <TextField label="Mobile No" name="mobileNo" type="number" size="small" onChange={handleChange}/>
-              </div><br/>
-              <div>
-                <TextField label="E-mail" name="email" type="text" size="small" onChange={handleChange} />
-              </div><br/>
-              <div>
-                <TextField label="Password"  name="password" type="password" size="small" onChange={handleChange}/>
-              </div><br/>
-              <div className="btn">
-                <Button type='submit'  id="submit-button" variant="contained" size="large" style={{ backgroundColor:'#4f5cd7'}}>Submit</Button>
-              </div>
-              <p className='link' style={{ cursor: "pointer", paddingBottom:'50px' }} onClick={() => navigate("/")}>
-                already have an account? <b>Login</b>
-              </p>
-            </div>
-          </div>
-        </div>
-      </form>
+    <br />
+     
+     
+       <div style={{ display: 'flex', alignItems: 'center', color:'black'  }}>
+        <label style={{ width: '150px', marginRight: '10px' }}>Address:</label>
+        <TextField label="" name="address"    multiline  rows={2}   style={{ width: '500px', borderRadius:'5px' }} type="text" size="small" onChange={handleChange} />
+      </div><br/>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <label style={{ width: '150px', marginRight: '10px', color:'black' }}>Password:</label>
+        <input style={{ width: '500px', borderRadius:'5px' }} name="password" type="text" size="small" onChange={handleChange} />
+      </div>
+      
+    </div>
+  </div>
+  </div>
+</form>
+
     </div>
   );
 }

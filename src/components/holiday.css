@@ -32,3 +32,43 @@ h1 {
 .center {
   text-align: center;
 }
+.sidebar {
+  position: fixed;
+  width: 230px; /* Adjust the width as needed */
+  background-color: white; /* Change the background color as needed */
+  color: #fff; /* Change text color as needed */
+  overflow-y: auto; /* Allow vertical scrolling when content overflows the sidebar */
+  top: 0; /* Fixed position at the top */
+  left: 0; /* Fixed position at the left (horizontal position) */
+}
+table {
+  border-collapse: collapse;
+  border: none; /* Remove table border */
+}
+/* Style the container to limit the height and make it scrollable */
+/* Add this CSS to your stylesheet */
+.table-containera {
+  max-height: 100%; /* Set the maximum height to 100% of the parent container, adjust as needed */
+  overflow: hidden; /* Hide any content that overflows the maximum height */
+}
+
+
+.td {
+  font-size: 15px;
+  padding: 35px;
+  padding-right: 90px;
+  border-left: 0px;
+  border-top: 0px ; /* Add top border to table cells */
+  border-right: 0px;
+  border-bottom: 1px solid #ccc; /* Add bottom border to table cells */
+}
+
+.th {
+  font-size: 13px;
+  padding: 10px;
+  border-left: 0.5px;
+  color: #616161;
+  background-color: #e8eaf6;
+  border-top: 0px solid #ccc; /* Add top border to table header cells */
+  border-bottom: 1px solid #ccc; /* Add bottom border to table header cells */
+}

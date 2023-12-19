@@ -1,120 +1,150 @@
-import React ,{ useState } from 'react'
-import  ReactDOM  from 'react'
-import './bank.css'
-import Sidebar from './Sidebar'
-import { Link } from "react-router-dom"; 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
+import logo from './img/logo.jpg';
+import './register.css';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'; 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import './register.css'
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { Link } from "react-router-dom"; 
+import Swal from 'sweetalert2'; // Import SweetAlert
+import 'sweetalert2/src/sweetalert2.scss'; 
+import Grid from '@mui/material/Grid';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import "react-datepicker/dist/react-datepicker.css";
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Sidebar from './Sidebar';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import PersonIcon from '@mui/icons-material/Person';
 
+const BankForm = () => {
+  const [accountNumber, setAccountNumber] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [ifsccode, setIFSCCode] = useState('');
+  const [holderName, setHolderName] = useState('');
+  const [empid, setEmpId] = useState('');
+  const [message, setMessage] = useState('');
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+      const response = await fetch('https://attendance-backend-five.vercel.app/empbankdetail/bank', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          accountNumber,
+          bankName,
+          ifsccode,
+          holdername: holderName,
+          empid,
+        }),
+      });
 
-function Pdetail() {
-    const [rows, setRows] = useState([
-        { name: 'khuhsi', accountnumber: '79844565', ifsccode:'4511',bankname:'sbi',editing: false },
-        { name: 'dhruvi',accountnumber: '79844565', ifsccode:'4511', bankname:'sbi',editing: false },
-        { name: 'krisha', accountnumber: '79844565', ifsccode:'4511',bankname:'sbi', editing: false },
-        { name: 'mansi', accountnumber: '79844565',ifsccode:'4511',bankname:'sbi', editing: false },
-       
-    ]);
+      const data = await response.json();
 
-    const editRow = (row) => {
-        const updatedRows = rows.map((r) => {
-            if (r === row) {
-                return { ...r, editing: true };
-            }
-            return r;
-        });
-        setRows(updatedRows);
-    };
-
-    const saveRow = (row) => {
-        const updatedRows = rows.map((r) => {
-            if (r === row) {
-                return { ...r, editing: false };
-            }
-            return r;
-        });
-        setRows(updatedRows);
-    };
-
-    const deleteRow = (index) => {
-        const updatedRows = [...rows];
-        updatedRows.splice(index, 1);
-        setRows(updatedRows);
-    };
-
-    const addRow = () => {
-        const newRows = [...rows, { name: '', accountnumber: '',ifsccode:'', bankname:'',editing: true }];
-        setRows(newRows);
-    };
-    
+      if (response.ok) {
+        setMessage(data.message);
+      } else {
+        // Handle error responses
+        setMessage(data.message);
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error('Network error:', error.message);
+    }
+  };
+ 
   return (
     <div>
+    <div className="sidebar">
   <Sidebar />
-   
-   <div className='containe'>
-    
-                <h1>Bank Details</h1>
-                <div>
-                    <Button variant="contained" size="large" style={{ marginBottom:'10px', marginLeft:'700px'}}>add </Button>
-                </div>
-                    <table>
-                        <thead>
-                            <tr>
-                           
-                                <th>Name</th>
-                                <th>accountnumber</th>
-                                <th>ifsccode</th>
-                                <th>bankname</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rows.map((row, index) => (
-                                <tr key={index}>
-                                 
-                                    {!row.editing && <td>{row.name}</td>}
-                                    {!row.editing && <td>{row.accountnumber}</td>}
-                                    {!row.editing && <td>{row.ifsccode}</td>}
-                                    {!row.editing && <td>{row.bankname}</td>}
-                                    
-                                    {row.editing && <td><input type="text" value={row.name} onChange={(e) => {
-                                        const updatedRows = [...rows];
-                                        updatedRows[index].name = e.target.value;
-                                        setRows(updatedRows);
-                                    }} /></td>}
-                                    {row.editing && <td><input type="text" value={row.accountnumber} onChange={(e) => {
-                                        const updatedRows = [...rows];
-                                        updatedRows[index].accountnumber = e.target.value;
-                                        setRows(updatedRows);
-                                    }} /></td>}
-                                      {row.editing && <td><input type="number" value={row.ifsccode} onChange={(e) => {
-                                        const updatedRows = [...rows];
-                                        updatedRows[index].ifsccode = e.target.value;
-                                        setRows(updatedRows);
-                                    }} /></td>}
-                                    {row.editing && <td><input type="text" value={row.bankname} onChange={(e) => {
-                                        const updatedRows = [...rows];
-                                        updatedRows[index].bankname = e.target.value;
-                                        setRows(updatedRows);
-                                    }} /></td>}
-                                    
-                                    <td>
-                                        {!row.editing && <button className="edit-button" onClick={() => editRow(row)}>Edit</button>}
-                                        {row.editing && <button className="save-button" onClick={() => saveRow(row)}>Save</button>}
-                                        <button className="delete-button" onClick={() => deleteRow(index)}>Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button className="add-button" onClick={addRow}>Add Row</button>
-                </div>
+</div>
+
+<form  onSubmit={handleSubmit}  >
+       <ToastContainer />
+       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' , marginLeft:'250px'}}>
+        <Link to="/dashboard">
+          <ArrowBackIcon /> {/* Back icon */}
+        </Link>
+        <b style={{ marginRight: '700px' }}>Add Employee</b>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', marginLeft: '250px', marginTop: '30px' }}>
+  <div
+    style={{
+      width: '70px',
+      height: '70px',
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'darkgray',
+    }}
+  >
+    <PersonIcon style={{ fontSize: 50, color: 'white' }} />
+  </div>
+  <div style={{ fontSize: '30px', marginLeft: '20px', color:'#303f9f' }}>Add Bank Details</div>
+   <Button    id="submit-button"  type="submit" style={{ marginLeft: '700px', backgroundColor:'#e57373', color:'white', width:'250px', height:'40', fontSize:'20px' }}>Save</Button>	
+
+</div>
+
+<hr style={{ height: '1px', background: 'lightgray', border: '0px', marginTop: '10px', borderRadius:'2px' }} />
+
+<div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
+  <div className='sub-main'>
+    <div style={{ marginLeft:'200px'}}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <label style={{ width: '150px', marginRight: '10px', color:'black' }}>Emp ID:</label>
+        <input style={{ width: '500px', borderRadius:'5px' }}value={empid} onChange={(e) => setEmpId(e.target.value)} />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center' , color:'black' }}>
+        <label style={{ width: '150px', marginRight: '10px' }}> Account Number:</label>
+        <TextField  style={{ width: '500px', borderRadius:'5px' }} type="number" size="small" value={accountNumber}onChange={(e) => setAccountNumber(e.target.value)}  />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center', color:'black'  }}>
+        <label style={{ width: '150px', marginRight: '10px' }}> Bank Name:</label>
+        <TextField  style={{ width: '500px', borderRadius:'5px' }} type="text" size="small"  value={bankName} onChange={(e) => setBankName(e.target.value)} />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center', color:'black'  }}>
+        <label style={{ width: '150px', marginRight: '10px' }}>  IFSC Code:</label>
+        <TextField  style={{ width: '500px', borderRadius:'5px' }} size="small" value={ifsccode} onChange={(e) => setIFSCCode(e.target.value)} />
+      </div>
+      <br />
+
+      <div style={{ display: 'flex', alignItems: 'center' , color:'black' }}>
+        <label style={{ width: '150px', marginRight: '10px' }}> Holder Name:</label>
+        <TextField label=""  style={{ width: '500px', borderRadius:'5px' }} type="text" size="small"  value={holderName} onChange={(e) => setHolderName(e.target.value)} />
+      </div>
+      <br />
+      
+      
     </div>
-    
-    
-  )
- 
+  </div>
+  </div>
+</form>
+
+    </div>
+  );
 }
 
-export default Pdetail;
+export default BankForm;
